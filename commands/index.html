@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stella Bot | لوحة الأوامر</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #f3f5fa;
+            --bg-card: #ffffff;
+            --text-title: #11131e;
+            --text-body: #5f6674;
+            --border: rgba(0, 0, 0, 0.05);
+            --gold: lightblue;
+            --gold-secondary: blue;
+            --primary: #4d5caa;
+            --primary-glow: rgba(77, 92, 170, 0.06);
+            --nav-bg: rgba(243, 245, 250, 0.85);
+            --code-bg: #f8fafc;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            overflow-x: hidden;
+            padding-top: 120px;
+        }
+
+        .material-symbols-rounded {
+            font-family: 'Material Symbols Rounded' !important;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 22px; /* تصغير حجم الأيقونات قليلاً لتتناسب مع الخط الجديد */
+            line-height: 1;
+            display: inline-block;
+            direction: ltr;
+            -webkit-font-smoothing: antialiased;
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; height: 85px;
+            background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 8%; z-index: 1000;
+        }
+        .logo {
+            font-size: 1.6rem; font-weight: 700; color: var(--text-title);
+            display: flex; align-items: center; gap: 12px; text-decoration: none;
+        }
+        .btn-back {
+            background: var(--bg-card); color: var(--text-title); padding: 10px 20px; border-radius: 12px;
+            text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 8px;
+            border: 1px solid var(--border); font-size: 0.95rem;
+        }
+        .btn-back:hover { transform: translateX(3px); }
+
+        /* ترويسة البحث */
+        .search-section {
+            max-width: 800px; margin: 40px auto 30px; padding: 0 4%; text-align: center;
+        }
+        .search-section h1 { font-size: 2.3rem; color: var(--text-title); margin-bottom: 12px; font-weight: 700;}
+        .search-section h1 span { background: linear-gradient(135deg, var(--gold) 0%, var(--gold-secondary) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .search-section p { font-size: 1.1rem; }
+
+        .search-wrapper {
+            position: relative; width: 100%; margin-top: 25px;
+        }
+        .search-input {
+            width: 100%; padding: 16px 55px 16px 25px; border-radius: 18px;
+            border: 2px solid var(--border); background: var(--bg-card);
+            font-size: 1.05rem; color: var(--text-title); outline: none;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.01);
+        }
+        .search-input:focus { border-color: var(--primary); box-shadow: 0 10px 30px rgba(77, 92, 170, 0.08); }
+        .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--text-body); }
+
+        /* التصنيفات */
+        .categories-container {
+            display: flex; justify-content: center; gap: 10px; max-width: 1000px;
+            margin: 0 auto 40px; padding: 0 4%; flex-wrap: wrap;
+        }
+        .category-btn {
+            padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-body); font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+        }
+        .category-btn .material-symbols-rounded { font-size: 18px; }
+        .category-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .category-btn.active {
+            background: var(--primary); color: #fff; border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(77, 92, 170, 0.15);
+        }
+
+        /* قائمة الأوامر الطولية */
+        .commands-list {
+            max-width: 900px; margin: 0 auto 100px; padding: 0 4%;
+            display: flex; flex-direction: column; gap: 12px; /* تقليص الفراغات بين الصفوف */
+        }
+
+        /* صف الأمر الانزلاقي */
+        .command-item {
+            background: var(--bg-card); border: 1px solid var(--border);
+            border-radius: 16px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.01);
+        }
+
+        /* الجزء العلوي الثابت (معدل ليعكس الاتجاه) */
+        .command-trigger {
+            padding: 16px 24px; /* تصغير البادينج قليلاً */
+            display: flex; 
+            justify-content: space-between;
+            align-items: center; 
+            cursor: pointer; 
+            user-select: none;
+            flex-direction: row-reverse; /* السحر هنا: يعكس محاذاة العناصر بالكامل */
+        }
+        .command-trigger:hover { background-color: rgba(0,0,0,0.01); }
+
+        /* حاوية جهة اليمين (السهم والتصنيف) */
+        .trigger-right-side { 
+            display: flex; 
+            align-items: center; 
+            gap: 14px; 
+        }
+        
+        /* اسم الأمر أصبح على اليسار وثابت */
+        .command-name {
+            font-size: 1.15rem; /* تصغير خط الأمر قليلاً */
+            font-weight: 700; 
+            color: var(--primary);
+            font-family: monospace;
+            direction: ltr; /* لضمان القراءة الصحيحة لرموز الأوامر */
+        }
+        
+        .command-cat-badge {
+            font-size: 0.78rem; font-weight: 700; color: var(--text-body);
+            background: var(--primary-glow); padding: 4px 12px; border-radius: 50px;
+            display: flex; align-items: center; gap: 6px;
+        }
+        .command-cat-badge .material-symbols-rounded { font-size: 15px; }
+
+        .arrow-icon {
+            color: var(--text-body); font-size: 24px;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* محتوى المنسدلة الخفي */
+        .command-dropdown {
+            max-height: 0; overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--bg-card);
+        }
+
+        .dropdown-inner {
+            padding: 0 24px 24px 24px; display: flex; flex-direction: column; gap: 14px;
+            border-top: 1px dashed var(--border); padding-top: 16px;
+        }
+
+        .command-desc { font-size: 0.95rem; color: var(--text-title); line-height: 1.6; font-weight: 500; }
+        
+        .command-details {
+            background: var(--code-bg); padding: 15px; border-radius: 12px;
+            display: flex; flex-direction: column; gap: 8px; font-size: 0.85rem;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        
+        .detail-line span { font-weight: 700; color: var(--text-title); margin-left: 5px;}
+        .detail-line code {
+            font-family: monospace; background: rgba(0,0,0,0.04);
+            padding: 2px 6px; border-radius: 6px; color: #d63384; font-size: 0.9rem; display: inline-block; direction: ltr;
+        }
+
+        /* الحالة النشطة عند فتح القائمة */
+        .command-item.open .arrow-icon {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+        .command-item.open {
+            border-color: rgba(77, 92, 170, 0.25);
+            box-shadow: 0 8px 20px rgba(77, 92, 170, 0.03);
+        }
+
+        /* رسالة عدم وجود نتائج */
+        .no-results {
+            text-align: center; padding: 60px 20px;
+            font-size: 1.1rem; color: var(--text-body); display: none;
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 8%; text-align: center; font-size: 0.9rem; color: var(--text-body);
+            border-top: 1px solid var(--border); background: transparent;
+        }
+        footer span { color: var(--text-title); font-weight: 600; }
+
+        @media (max-width: 768px) {
+            body { padding-top: 100px; }
+            .search-section h1 { font-size: 1.9rem; }
+            .commands-list { padding: 0 4%; }
+            .command-trigger { padding: 14px 18px; }
+            .dropdown-inner { padding: 0 18px 18px 18px; padding-top: 12px; }
+            .logo span:not(.material-symbols-rounded) { display: none; }
+            .command-name { font-size: 1.05rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="/" class="logo">
+            <span class="material-symbols-rounded" style="font-size: 30px; color: var(--primary);">cyclone</span>
+            <span style="color: var(--text-title)">Stella Bot</span>
+        </a>
+        <a href="/" class="btn-back">
+            <span class="material-symbols-rounded" style="font-size: 18px;">arrow_forward</span>
+            الرئيسية
+        </a>
+    </nav>
+
+    <!-- Search Section -->
+    <section class="search-section">
+        <h1>قائمة <span>أوامر</span> البوت</h1>
+        <p>ابحث عن الأوامر وصنفها لمعرفة كيفية الاستخدام والأمثلة التفصيلية بكل سهولة</p>
+        
+        <div class="search-wrapper">
+            <span class="material-symbols-rounded search-icon">search</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن اسم الأمر أو الوصف...">
+        </div>
+    </section>
+
+    <!-- Categories Filter Buttons -->
+    <div class="categories-container">
+        <button class="category-btn active" data-cat="all">
+            <span class="material-symbols-rounded">apps</span>كل الأوامر
+        </button>
+        <button class="category-btn" data-cat="ticket">
+            <span class="material-symbols-rounded">confirmation_number</span>أوامر التذاكر
+        </button>
+        <button class="category-btn" data-cat="admin">
+            <span class="material-symbols-rounded">shield_person</span>أوامر إدارية
+        </button>
+        <button class="category-btn" data-cat="general">
+            <span class="material-symbols-rounded">public</span>أوامر عامة
+        </button>
+        <button class="category-btn" data-cat="games">
+            <span class="material-symbols-rounded">sports_esports</span>أوامر ألعاب
+        </button>
+        <button class="category-btn" data-cat="premium">
+            <span class="material-symbols-rounded">star</span>أوامر بريميوم
+        </button>
+    </div>
+
+    <!-- Commands List Container -->
+    <main class="commands-list" id="commandsList">
+        <!-- يتم توليد الأسطر المنسدلة هنا تلقائياً بواسطة الجافاسكريبت -->
+        <div class="no-results" id="noResults">لم يتم العثور على أي أوامر تطابق بحثك..</div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p><span>Mazeej Studio</span> &copy; 2026</p>
+    </footer>
+
+    <!-- JavaScript السحري -->
+    <script>
+        const commandsData = [
+            {
+                name: "/ticket setup",
+                category: "ticket",
+                categoryIcon: "confirmation_number",
+                categoryName: "أوامر التذاكر",
+                desc: "إنشاء لوحة التذاكر المتقدمة داخل الغرفة وتخصيص أزرارها للزوار.",
+                usage: "/ticket setup [اسم_الغرفة]",
+                example: "/ticket setup #الدعم-الفني"
+            },
+            {
+                name: "/ticket close",
+                category: "ticket",
+                categoryIcon: "confirmation_number",
+                categoryName: "أوامر التذاكر",
+                desc: "إغلاق التذكرة الحالية مع حفظ الأرشيف وحذف الغرفة تلقائياً.",
+                usage: "/ticket close [السبب]",
+                example: "/ticket close تم حل المشكلة"
+            },
+            {
+                name: "/ban",
+                category: "admin",
+                categoryIcon: "shield_person",
+                categoryName: "أوامر إدارية",
+                desc: "حظر عضو من السيرفر نهائياً مع إمكانية مسح رسائله الأخيرة من الشات.",
+                usage: "/ban [العضو] [السبب]",
+                example: "/ban @Mohammad مخالفة القوانين"
+            },
+            {
+                name: "/mute",
+                category: "admin",
+                categoryIcon: "shield_person",
+                categoryName: "أوامر إدارية",
+                desc: "كتم صوت عضو (Timeout) ومنعه من الكتابة والتفاعل لفترة محددة.",
+                usage: "/mute [العضو] [الوقت] [السبب]",
+                example: "/mute @User 1h سب وشتم"
+            },
+            {
+                name: "/user info",
+                category: "general",
+                categoryIcon: "public",
+                categoryName: "أوامر عامة",
+                desc: "عرض معلومات حسابك الدقيقة أو حساب عضو آخر (تاريخ الإنشاء، تاريخ الانضمام، الرتب).",
+                usage: "/user info [العضو]",
+                example: "/user info @Mohammad"
+            },
+            {
+                name: "/xo",
+                category: "games",
+                categoryIcon: "sports_esports",
+                categoryName: "أوامر ألعاب",
+                desc: "بدء تحدي لعبة الـ XO الشهيرة والممتعة مع صديقك داخل الشات مباشرة عبر الأزرار.",
+                usage: "/xo [العضو]",
+                example: "/xo @Brother"
+            },
+            {
+                name: "/set-identity",
+                category: "premium",
+                categoryIcon: "star",
+                categoryName: "أوامر بريميوم",
+                desc: "تغيير اسم البوت بالكامل وصورته وحالته الشخصية داخل خادمك المخصص فوراً.",
+                usage: "/set-identity [الاسم] [رابط_الصورة]",
+                example: "/set-identity StellaPro https://img.link"
+            },
+            {
+                name: "/stats-voice",
+                category: "premium",
+                categoryIcon: "star",
+                categoryName: "أوامر بريميوم",
+                desc: "إنشاء وتفعيل رومات الإحصائيات الصوتية التلقائية المتطورة التي تحدث تلقائياً.",
+                usage: "/stats-voice setup",
+                example: "/stats-voice setup"
+            }
+        ];
+
+        const commandsList = document.getElementById('commandsList');
+        const searchInput = document.getElementById('searchInput');
+        const categoryButtons = document.querySelectorAll('.category-btn');
+        const noResults = document.getElementById('noResults');
+
+        let currentCategory = 'all';
+        let searchQuery = '';
+
+        function renderCommands() {
+            const items = commandsList.querySelectorAll('.command-item');
+            items.forEach(item => item.remove());
+
+            let hasVisibleCommands = false;
+
+            commandsData.forEach(cmd => {
+                const matchesCategory = (currentCategory === 'all' || cmd.category === currentCategory);
+                const matchesSearch = (cmd.name.toLowerCase().includes(searchQuery) || cmd.desc.toLowerCase().includes(searchQuery));
+
+                if (matchesCategory && matchesSearch) {
+                    hasVisibleCommands = true;
+                    
+                    const item = document.createElement('div');
+                    item.className = 'command-item';
+                    
+                    item.innerHTML = `
+                        <div class="command-trigger">
+                            <span class="command-name">${cmd.name}</span>
+                            <div class="trigger-right-side">
+                                <span class="command-cat-badge">
+                                    <span class="material-symbols-rounded">${cmd.categoryIcon}</span>
+                                    ${cmd.categoryName}
+                                </span>
+                                <span class="material-symbols-rounded arrow-icon">expand_more</span>
+                            </div>
+                        </div>
+                        <div class="command-dropdown">
+                            <div class="dropdown-inner">
+                                <p class="command-desc">${cmd.desc}</p>
+                                <div class="command-details">
+                                    <div class="detail-line"><span>طريقة الاستخدام:</span> <code>${cmd.usage}</code></div>
+                                    <div class="detail-line"><span>مثال:</span> <code>${cmd.example}</code></div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    const trigger = item.querySelector('.command-trigger');
+                    const dropdown = item.querySelector('.command-dropdown');
+                    
+                    trigger.addEventListener('click', () => {
+                        const isOpen = item.classList.contains('open');
+                        
+                        commandsList.querySelectorAll('.command-item').forEach(el => {
+                            el.classList.remove('open');
+                            el.querySelector('.command-dropdown').style.maxHeight = null;
+                        });
+
+                        if (!isOpen) {
+                            item.classList.add('open');
+                            dropdown.style.maxHeight = dropdown.scrollHeight + "px";
+                        } else {
+                            item.classList.remove('open');
+                            dropdown.style.maxHeight = null;
+                        }
+                    });
+
+                    commandsList.appendChild(item);
+                }
+            });
+
+            noResults.style.display = hasVisibleCommands ? 'none' : 'block';
+        }
+
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            renderCommands();
+        });
+
+        categoryButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categoryButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentCategory = btn.getAttribute('data-cat');
+                renderCommands();
+            });
+        });
+
+        renderCommands();
+    </script>
+</body>
+</html>

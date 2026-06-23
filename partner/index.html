@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stella Bot | شركاء ستيلا</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-main: #f3f5fa;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8fafc;
+            --text-title: #11131e;
+            --text-body: #5f6674;
+            --border: rgba(0, 0, 0, 0.05);
+            --border-hover: rgba(77, 92, 170, 0.3);
+            --primary: #4d5caa;
+            --primary-glow: rgba(77, 92, 170, 0.06); 
+            --nav-bg: rgba(243, 245, 250, 0.85);
+            
+            /* تدرجات ذهبية وفضية ناعمة للنصوص والإطارات */
+            --gold-color: #b38728;
+            --gold-border: linear-gradient(135deg, #bf953f 0%, #fbf5b7 50%, #aa771c 100%);
+            
+            --silver-color: #69738d;
+            --silver-border: linear-gradient(135deg, #757F9A 0%, #D7DDE8 100%);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'IBM Plex Sans Arabic', sans-serif;
+            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, transform 0.3s ease;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-body);
+            overflow-x: hidden;
+            position: relative;
+            padding-top: 110px;
+        }
+
+        .neon-glow-1 {
+            position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
+            width: 100%; max-width: 700px; height: 700px; border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 75%);
+            z-index: -1; pointer-events: none;
+        }
+
+        .material-symbols-rounded {
+            font-family: 'Material Symbols Rounded' !important;
+            font-weight: normal; font-style: normal; font-size: 24px; line-height: 1;
+            display: inline-block; direction: ltr; -webkit-font-smoothing: antialiased;
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Navbar ثابته ومتناسقة */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; height: 85px;
+            background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 5%; z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem; font-weight: 700; color: var(--text-title);
+            display: flex; align-items: center; gap: 10px; text-decoration: none;
+        }
+
+        .btn-back {
+            background: transparent; color: var(--text-title); border: 1px solid var(--border);
+            padding: 10px 18px; border-radius: 12px; text-decoration: none; font-weight: 600;
+            display: flex; align-items: center; gap: 6px; font-size: 0.9rem;
+        }
+        .btn-back:hover { background: var(--border); }
+
+        /* حاوية المحتوى */
+        .content-container {
+            max-width: 1100px; margin: 0 auto; padding: 20px 5% 80px;
+            display: flex; flex-direction: column; gap: 30px;
+        }
+
+        /* رأس الصفحة وبحث */
+        .page-header { text-align: center; margin-bottom: 10px; }
+        .page-header h1 { font-size: 2.5rem; color: var(--text-title); font-weight: 700; margin-bottom: 10px; }
+        .page-header p { font-size: 1.1rem; color: var(--text-body); }
+
+        .search-wrapper { position: relative; width: 100%; max-width: 600px; margin: 20px auto 10px; }
+        .search-input {
+            width: 100%; padding: 15px 50px 15px 20px; border-radius: 16px;
+            border: 2px solid var(--border); background: var(--bg-card);
+            font-size: 1rem; color: var(--text-title); outline: none;
+        }
+        .search-input:focus { border-color: var(--primary); box-shadow: 0 10px 25px rgba(77, 92, 170, 0.06); }
+        .search-icon { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); color: var(--text-body); }
+
+        /* أزرار الفلترة والتصنيفات للرتب */
+        .categories-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
+        .category-btn {
+            padding: 10px 20px; border-radius: 12px; border: 1px solid var(--border);
+            background: var(--bg-card); color: var(--text-body); font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem;
+        }
+        .category-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .category-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        /* شبكة عرض كروت الشركاء */
+        .partners-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px;
+        }
+
+        /* كرت الشريك الافتراضي */
+        .partner-card {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 22px;
+            padding: 30px 20px; text-align: center; display: flex; flex-direction: column;
+            align-items: center; position: relative; box-shadow: 0 6px 20px rgba(0,0,0,0.01);
+        }
+        .partner-card:hover { transform: translateY(-5px); border-color: var(--border-hover); box-shadow: 0 12px 30px rgba(0,0,0,0.03); }
+
+        /* التعامل مع ميزة النجمة التمييزية (Star) */
+        .partner-card.featured-star {
+            border: 2px solid #eab308;
+            box-shadow: 0 10px 25px rgba(234, 179, 8, 0.08);
+        }
+        .partner-card.featured-star:hover {
+            box-shadow: 0 15px 35px rgba(234, 179, 8, 0.12);
+        }
+
+        /* لوجو وصورة الشريك */
+        .partner-avatar-wrapper {
+            position: relative; width: 90px; height: 90px; margin-bottom: 18px;
+        }
+        .partner-img {
+            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+            border: 3px solid var(--bg-main);
+        }
+        /* حلقة ذهبية حول صورة الشريك المميز بنجمة */
+        .partner-card.featured-star .partner-img {
+            border: 3px solid #eab308;
+        }
+
+        /* الأيقونة العائمة للنجمة المميزة */
+        .star-badge-floating {
+            position: absolute; top: -5px; right: -5px; background: #eab308;
+            color: #fff; width: 28px; height: 28px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 3px 8px rgba(234, 179, 8, 0.4);
+        }
+        .star-badge-floating .material-symbols-rounded { font-size: 16px; font-variation-settings: 'FILL' 1; }
+
+        /* اسم وتفاصيل الشريك */
+        .partner-name-row {
+            display: flex; align-items: center; gap: 6px; margin-bottom: 10px;
+        }
+        .partner-name { font-size: 1.3rem; font-weight: 700; color: var(--text-title); }
+        .star-inline { color: #eab308; font-variation-settings: 'FILL' 1; font-size: 20px; }
+
+        /* الشارات الجديدة المحدثة بدون خلفية ومع إطارات متدرجة ومائلة */
+        .rank-badge {
+            font-size: 0.8rem; font-weight: 700; padding: 5px 16px;
+            border-radius: 50px; margin-bottom: 25px; display: inline-flex; align-items: center; gap: 6px;
+            background: transparent; position: relative;
+        }
+        .rank-badge .material-symbols-rounded { font-size: 16px; }
+
+        /* تأثير إطار مائل متدرج باستعمال لوحة الألوان الفرعية */
+        .rank-badge::before {
+            content: ""; position: absolute; inset: 0; border-radius: 50px; 
+            padding: 1.5px; /* سمك الإطار المائل */
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude; pointer-events: none;
+        }
+
+        /* الشارة الذهبية المستحدثة */
+        .rank-badge.gold {
+            color: var(--gold-color);
+        }
+        .rank-badge.gold::before {
+            background: var(--gold-border);
+        }
+
+        /* الشارة الفضية المستحدثة */
+        .rank-badge.silver {
+            color: var(--silver-color);
+        }
+        .rank-badge.silver::before {
+            background: var(--silver-border);
+        }
+
+        /* زر زيارة السيرفر / الموقع */
+        .btn-partner-link {
+            width: 100%; background: var(--bg-main); color: var(--text-title);
+            padding: 12px; border-radius: 12px; text-decoration: none; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 0.9rem;
+            margin-top: auto; border: 1px solid var(--border);
+        }
+        .btn-partner-link:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+        .no-results { text-align: center; padding: 40px; font-size: 1.1rem; display: none; width: 100%; }
+
+        footer { padding: 40px 5%; text-align: center; font-size: 0.9rem; color: var(--text-body); border-top: 1px solid var(--border); margin-top: auto; }
+        footer span { color: var(--text-title); font-weight: 600; }
+
+        @media (max-width: 600px) {
+            body { padding-top: 100px; }
+            .page-header h1 { font-size: 2rem; }
+            .partners-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="neon-glow-1"></div>
+    
+    <nav>
+        <a href="/" class="logo">
+            <span class="material-symbols-rounded" style="font-size: 30px; color: var(--primary);">cyclone</span>
+            <span style="color: var(--text-title)">Stella Bot</span>
+        </a>
+        <a href="/" class="btn-back">
+            <span class="material-symbols-rounded" style="font-size: 18px;">arrow_forward</span>
+            الرئيسية
+        </a>
+    </nav>
+
+    <div class="content-container">
+        
+        <div class="page-header">
+            <h1>شركاء ستيلا</h1>
+            <p>المجتمعات والسيرفرات الموثوقة من قبل فريق ستيلا والتي عقدت شراكة دائمة مع البوت</p>
+        </div>
+
+        <div class="search-wrapper">
+            <span class="material-symbols-rounded search-icon">search</span>
+            <input type="text" id="partnerSearch" class="search-input" placeholder="ابحث عن اسم الشريك أو رتبته...">
+        </div>
+
+        <div class="categories-container">
+            <button class="category-btn active" data-filter="all">
+                <span class="material-symbols-rounded">group</span>كل الشركاء
+            </button>
+            <button class="category-btn" data-filter="gold">
+                <span class="material-symbols-rounded">workspace_premium</span>الشركاء الذهبين
+            </button>
+            <button class="category-btn" data-filter="silver">
+                <span class="material-symbols-rounded">military_tech</span>الشركاء الفضيين
+            </button>
+        </div>
+
+        <main class="partners-grid" id="partnersGrid">
+            <div class="no-results" id="noResults">لم يتم العثور على شركاء يطابقون خيارات البحث..</div>
+        </main>
+
+    </div>
+
+<center>
+<p>كن أحد شركائنا وتواصل معنا في الديسكورد، احصل على مميزات البريموم بمجرد انشاء الشراكة الذهبية او الفضية</p>
+</center>
+<br>
+
+    <footer>
+        <p><span>Mazeej Studio</span> &copy; 2026</p>
+    </footer>
+
+    <script>
+        // مصفوفة البيانات
+        const partnersData = [
+            {
+                name: "Orion Network",
+                rank: "gold", 
+                rankName: "شريك ذهبي",
+                star: true, 
+                image: "https://cdn.discordapp.com/avatars/1417378657445478502/ca9fd8582a661846dc3d56f01e470e61.png", 
+                url: "https://discord.gg/4AMhShV3JV" 
+            },
+            {
+                name: "ROCKS CLAN",
+                rank: "silver", 
+                rankName: "شريك فضي",
+                star: false, 
+                image: "https://cdn.discordapp.com/icons/1091358735345139903/1f1c10dcef0dd4e92972f999379157d2.png?size=1024", 
+                url: "https://discord.gg/mDYhPTFGz5" 
+            },
+            {
+                name: "MR Clan",
+                rank: "silver",
+                rankName: "شريك فضي",
+                star: false,
+                image: "https://cdn.discordapp.com/attachments/1463797828563374159/1464525955484614686/img.png?ex=6a3b8a95&is=6a3a3915&hm=ca0fb82a80f276bbba831624cf3f3eb9e25ed0d8b6d3b5f9255dcfba04b525a0&",
+                url: "https://discord.gg/m4bNXwP4Wd"
+            }
+        ];
+
+        const partnersGrid = document.getElementById('partnersGrid');
+        const partnerSearch = document.getElementById('partnerSearch');
+        const filterButtons = document.querySelectorAll('.category-btn');
+        const noResults = document.getElementById('noResults');
+
+        let activeFilter = 'all';
+        let searchQuery = '';
+
+        function renderPartners() {
+            const cards = partnersGrid.querySelectorAll('.partner-card');
+            cards.forEach(card => card.remove());
+
+            let hasPartners = false;
+
+            partnersData.forEach(partner => {
+                const matchesFilter = (activeFilter === 'all' || partner.rank === activeFilter);
+                const matchesSearch = (partner.name.toLowerCase().includes(searchQuery) || partner.rankName.toLowerCase().includes(searchQuery));
+
+                if (matchesFilter && matchesSearch) {
+                    hasPartners = true;
+                    
+                    const card = document.createElement('div');
+                    card.className = `partner-card ${partner.star ? 'featured-star' : ''}`;
+                    
+                    const badgeClass = partner.rank === 'gold' ? 'gold' : 'silver';
+                    const badgeIcon = partner.rank === 'gold' ? 'workspace_premium' : 'military_tech';
+                    
+                    const starFloatingHtml = partner.star ? `<div class="star-badge-floating"><span class="material-symbols-rounded">star</span></div>` : '';
+                    const starInlineHtml = partner.star ? `<span class="material-symbols-rounded star-inline">star</span>` : '';
+
+                    card.innerHTML = `
+                        <div class="partner-avatar-wrapper">
+                            <img src="${partner.image}" alt="${partner.name}" class="partner-img">
+                            ${starFloatingHtml}
+                        </div>
+                        <div class="partner-name-row">
+                            <h3 class="partner-name">${starInlineHtml} ${partner.name}</h3>
+                        </div>
+                        <span class="rank-badge ${badgeClass}">
+                            <span class="material-symbols-rounded">${badgeIcon}</span>
+                            ${partner.rankName}
+                        </span>
+                        <a href="${partner.url}" target="_blank" class="btn-partner-link">
+                            <span class="material-symbols-rounded" style="font-size: 18px;">open_in_new</span>
+                            الانتقال
+                        </a>
+                    `;
+
+                    partnersGrid.appendChild(card);
+                }
+            });
+
+            noResults.style.display = hasPartners ? 'none' : 'block';
+        }
+
+        partnerSearch.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase().trim();
+            renderPartners();
+        });
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeFilter = btn.getAttribute('data-filter');
+                renderPartners();
+            });
+        });
+
+        renderPartners();
+    </script>
+</body>
+</html>
