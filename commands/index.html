@@ -283,13 +283,13 @@
     <script>
         const commandsData = [
             {
-                name: "/ticket setup",
+                name: "/setup tickets",
                 category: "ticket",
                 categoryIcon: "confirmation_number",
                 categoryName: "أوامر التذاكر",
-                desc: "إنشاء لوحة التذاكر المتقدمة داخل الغرفة وتخصيص أزرارها للزوار.",
-                usage: "/ticket setup [اسم_الغرفة]",
-                example: "/ticket setup #الدعم-الفني"
+                desc: "اعداد التذاكر بشكل كامل والتعديل على كلشيء فيها على حدى",
+                usage: "/setup tickets",
+                example: "/setup tickets"
             },
             {
                 name: "/ticket close",
@@ -299,6 +299,24 @@
                 desc: "إغلاق التذكرة الحالية مع حفظ الأرشيف وحذف الغرفة تلقائياً.",
                 usage: "/ticket close [السبب]",
                 example: "/ticket close تم حل المشكلة"
+            },
+            {
+                name: "/setup commands",
+                category: "admin",
+                categoryIcon: "shield_person",
+                categoryName: "أوامر إدارية",
+                desc: "اعداد الاوامر كل واحدى على حدى والغاؤها او تعديل القنوات التي يعمل بها الامر",
+                usage: "/setup commands",
+                example: "/setup commands"
+            },
+            {
+                name: "/setup tickets",
+                category: "admin",
+                categoryIcon: "shield_person",
+                categoryName: "أوامر إدارية",
+                desc: "اعداد التذاكر بشكل كامل والتعديل على كلشيء فيها على حدى",
+                usage: "/setup tickets",
+                example: "/setup tickets"
             },
             {
                 name: "/ban",
