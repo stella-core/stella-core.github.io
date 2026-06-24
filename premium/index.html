@@ -25,6 +25,7 @@
             --gold-secondary: #aa7c11;
             --gold-glow: rgba(212, 175, 55, 0.08);
             --primary: #4d5caa;
+            --primary-hover: #3b4995;
             
             --success: #00c853;
             --danger: #d50000;
@@ -272,6 +273,69 @@
             line-height: 1.6;
         }
 
+        /* --- تصميم النافذة المنبثقة (Popup Modal) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(17, 19, 30, 0.6);
+            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
+            padding: 20px;
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+
+        .modal-container {
+            background: var(--bg-card); width: 100%; max-width: 520px;
+            border-radius: 28px; padding: 40px 30px; border: 1px solid var(--border);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15); position: relative;
+            transform: scale(0.9); transition: transform 0.4s ease; text-align: center;
+        }
+        .modal-overlay.active .modal-container { transform: scale(1); }
+
+        .modal-close {
+            position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.03);
+            border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+            display: flex; align-items: center; justify-content: center; color: var(--text-title);
+        }
+        .modal-close:hover { background: rgba(213, 0, 0, 0.1); color: var(--danger); }
+
+        .modal-status-icon {
+            width: 70px; height: 70px; border-radius: 50%; background: rgba(213, 0, 0, 0.08);
+            color: var(--danger); display: inline-flex; align-items: center; justify-content: center;
+            margin-bottom: 20px;
+        }
+        .modal-status-icon span { font-size: 40px; }
+
+        .modal-container h3 { font-size: 1.6rem; color: var(--text-title); margin-bottom: 12px; font-weight: 700; }
+        .modal-container .modal-desc { font-size: 1.05rem; color: var(--text-body); line-height: 1.6; margin-bottom: 30px; }
+
+        /* طرق الدفع داخل الـ Popup */
+        .payments-title {
+            font-size: 0.95rem; font-weight: 700; color: var(--text-title);
+            display: flex; align-items: center; justify-content: center; gap: 8px; margin-bottom: 18px;
+        }
+        .payments-title::before, .payments-title::after {
+            content: ''; flex-grow: 1; height: 1px; background: var(--border);
+        }
+
+        .payments-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 35px;
+        }
+        .payment-item {
+            background: #f8fafc; border: 1px solid var(--border); padding: 12px 8px;
+            border-radius: 14px; display: flex; flex-direction: column; align-items: center; gap: 8px;
+        }
+        .payment-item svg { width: 34px; height: 34px; fill: currentColor; }
+        .payment-item span { font-size: 0.85rem; font-weight: 600; color: var(--text-title); }
+
+        /* زر الديسكورد للتذكرة */
+        .btn-ticket {
+            width: 100%; padding: 16px; border-radius: 16px; border: none; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: var(--primary); color: #fff; box-shadow: 0 10px 20px rgba(77, 92, 170, 0.2);
+        }
+        .btn-ticket:hover { background: var(--primary-hover); transform: translateY(-2px); box-shadow: 0 12px 25px rgba(77, 92, 170, 0.35); }
+
         /* الـ Footer البسيط والنظيف جداً */
         footer {
             padding: 40px 8%; text-align: center; font-size: 0.95rem; color: var(--text-body);
@@ -296,6 +360,7 @@
             .bundle-card { padding: 35px 20px; }
             .detailed-features-section { padding: 0 4%; margin-bottom: 60px; }
             .section-title-area h3 { font-size: 1.5rem; }
+            .payments-grid { grid-template-columns: repeat(2, 1fr); }
         }
     </style>
 </head>
@@ -401,10 +466,10 @@
                     <span>عضوية مخصصة في سيرفر الديسكورد</span>
                 </li>
             </ul>
-            <a href="#" class="btn-subscribe">
+            <button class="btn-subscribe" id="openModalBtn">
                 <span class="material-symbols-rounded" style="font-size: 22px;">bolt</span>
                 اشترك الآن
-            </a>
+            </button>
         </div>
 
     </main>
@@ -478,10 +543,54 @@
 		</center>
     </section>
 
+    <!-- الـ Popup Modal المطور لدعم الدفع والاشعارات -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal-container">
+            <button class="modal-close" id="closeModalBtn">
+                <span class="material-symbols-rounded">close</span>
+            </button>
+            <div class="modal-status-icon">
+                <span class="material-symbols-rounded">block</span>
+            </div>
+            <h3>الاشتراك عبر الموقع متوقف</h3>
+            <p class="modal-desc">يمكنك الاشتراك في سيرفر الديسكورد عبر فتح تذكرة دعم فني وطلب الاشتراك، وهناك اكثر من وسيلة دفع متاحة</p>
+            			
+            <a href="https://discord.com/channels/1106294772823502970/1519238072720424991" target="_blank" class="btn-ticket">
+                <span class="material-symbols-rounded" style="font-size: 22px;">add_circle</span>
+                الانتقال الى قناة التذاكر
+            </a>
+        </div>
+    </div>
+
     <!-- الـ Footer النظيف -->
     <footer>
         <p><span>Mazeej Studio</span> &copy; 2026</p>
     </footer>
+
+    <!-- سكربت التحكم بفتح وإغلاق النافذة المنبثقة -->
+    <script>
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modalOverlay = document.getElementById('modalOverlay');
+
+        openModalBtn.addEventListener('click', () => {
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // منع سكرول الصفحة الخلفية عند فتح المودال
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+
+        // إغلاق النافذة عند الضغط خارج المربع الأبيض
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                modalOverlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
 
 </body>
 </html>
