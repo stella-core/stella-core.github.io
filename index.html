@@ -4,7 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stella Bot | الصفحة الرئيسية</title>
-    
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Stella Bot | الصفحة الرئيسية">
+    <meta property="og:description" content="صفحة ستيلا بوت الرسمية">
+    <meta property="og:image" content="logo.png">
+    <meta property="og:theme-color" content="#4d5caa">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,18 +19,18 @@
 
     <style>
         :root {
-            --bg-main: #f3f5fa;
+            --bg-main: #f4f6fc;
             --bg-card: #ffffff;
-            --bg-card-hover: #f8fafc;
-            --text-title: #11131e;
-            --text-body: #5f6674;
-            --border: rgba(0, 0, 0, 0.05);
-            --border-hover: rgba(77, 92, 170, 0.3);
+            --bg-card-hover: #fafbfc;
+            --text-title: #0f111a;
+            --text-body: #52596c;
+            --border: rgba(77, 92, 170, 0.08);
+            --border-hover: rgba(77, 92, 170, 0.25);
             --primary: #4d5caa;
-            --primary-glow: rgba(77, 92, 170, 0.06); 
-            --accent-glow: rgba(216, 27, 96, 0.04);  
-            --nav-bg: rgba(243, 245, 250, 0.85);
-            --discord-gradient: linear-gradient(135deg, #404eed 0%, #5865F2 50%, #854fee 100%);
+            --primary-gradient: linear-gradient(135deg, #4d5caa 0%, #6879d6 100%);
+            --primary-glow: rgba(77, 92, 170, 0.08); 
+            --nav-bg: rgba(244, 246, 252, 0.85);
+            --discord-gradient: linear-gradient(135deg, #404eed 0%, #5865F2 50%, #727fff 100%);
         }
 
         * {
@@ -31,7 +38,6 @@
             margin: 0;
             padding: 0;
             font-family: 'IBM Plex Sans Arabic', sans-serif;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, transform 0.3s ease;
         }
 
         body {
@@ -42,9 +48,9 @@
         }
 
         .neon-glow-1 {
-            position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
-            width: 100%; max-width: 700px; height: 700px; border-radius: 50%;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 75%);
+            position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+            width: 100%; max-width: 900px; height: 900px; border-radius: 50%;
+            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
             z-index: -1; pointer-events: none;
         }
 
@@ -55,182 +61,279 @@
             font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        /* Navbar responsive */
         nav {
-            position: fixed; top: 0; left: 0; right: 0; height: 85px;
+            position: fixed; top: 0; left: 0; right: 0; height: 80px;
             background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; z-index: 1000;
+            padding: 0 6%; z-index: 1000;
         }
 
         .logo {
-            font-size: 1.5rem; font-weight: 700; color: var(--text-title);
+            font-size: 1.4rem; font-weight: 700; color: var(--text-title);
             display: flex; align-items: center; gap: 10px; text-decoration: none;
         }
 
-        .nav-actions { display: flex; align-items: center; gap: 10px; }
+        .nav-actions { display: flex; align-items: center; gap: 12px; }
+
+        .btn-nav-link {
+            background: var(--bg-card); color: var(--text-title); padding: 10px 16px; border-radius: 12px;
+            text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 6px;
+            font-size: 0.88rem; border: 1px solid var(--border); transition: all 0.25s ease;
+        }
+        .btn-nav-link:hover { border-color: var(--border-hover); transform: translateY(-2px); }
 
         .btn-nav-invite {
-            background: var(--primary); color: #fff; padding: 10px 18px; border-radius: 12px;
+            background: var(--primary-gradient); color: #fff; padding: 10px 18px; border-radius: 12px;
             text-decoration: none; font-weight: 600; display: flex; align-items: center; gap: 6px;
-            box-shadow: 0 4px 15px rgba(77, 92, 170, 0.25); font-size: 0.9rem;
+            box-shadow: 0 4px 15px rgba(77, 92, 170, 0.2); font-size: 0.88rem; transition: all 0.25s ease;
         }
-        .btn-nav-invite:hover { transform: translateY(-2px); }
+        .btn-nav-invite:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(77, 92, 170, 0.3); }
 
-        /* Hero */
-        .hero { padding: 160px 5% 80px; text-align: center; }
+        .hero { padding: 170px 5% 70px; text-align: center; }
 
         .badge-firm {
-            background: rgba(77, 92, 170, 0.05); border: 1px solid var(--border);
-            padding: 8px 16px; border-radius: 100px; font-size: 0.85rem; font-weight: 600;
+            background: #ffffff; border: 1px solid var(--border);
+            padding: 8px 18px; border-radius: 100px; font-size: 0.85rem; font-weight: 600;
             color: var(--primary); display: inline-flex; align-items: center; gap: 8px; margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.01);
         }
 
-        h1 { font-size: 3.5rem; font-weight: 700; color: var(--text-title); line-height: 1.2; margin-bottom: 25px; }
+        h1 { font-size: 3.4rem; font-weight: 800; color: var(--text-title); line-height: 1.3; margin-bottom: 20px; letter-spacing: -0.5px; }
+        h1 span { color: var(--primary); background: var(--primary-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        .hero p { font-size: 1.2rem; color: var(--text-body); max-width: 700px; margin: 0 auto 40px; line-height: 1.7; }
+        .hero p { font-size: 1.15rem; color: var(--text-body); max-width: 680px; margin: 0 auto 35px; line-height: 1.8; }
 
         .hero-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
 
         .btn-hero-main, .btn-hero-sub {
-            padding: 16px 32px; border-radius: 14px; font-size: 1.05rem; font-weight: 600;
-            text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 180px;
+            padding: 16px 36px; border-radius: 14px; font-size: 1rem; font-weight: 600;
+            text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 190px; transition: all 0.25s ease;
         }
-        .btn-hero-main { background: linear-gradient(135deg, var(--primary), #6171c5); color: #fff; box-shadow: 0 10px 25px rgba(77, 92, 170, 0.25); }
-        .btn-hero-main:hover { transform: translateY(-4px); }
-        .btn-hero-sub { background: var(--bg-card); color: var(--text-title); border: 1px solid var(--border); }
-        .btn-hero-sub:hover { background: var(--bg-card-hover); transform: translateY(-2px); }
+        .btn-hero-main { background: var(--primary-gradient); color: #fff; box-shadow: 0 8px 25px rgba(77, 92, 170, 0.25); }
+        .btn-hero-main:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(77, 92, 170, 0.35); }
+        .btn-hero-sub { background: var(--bg-card); color: var(--text-title); border: 1px solid var(--border); box-shadow: 0 4px 10px rgba(0,0,0,0.01); }
+        .btn-hero-sub:hover { background: var(--bg-card-hover); border-color: var(--border-hover); transform: translateY(-2px); }
 
-        /* Features */
-        section { padding: 60px 5%; }
+        section { padding: 70px 6%; }
         .section-header { text-align: center; margin-bottom: 50px; }
         .section-header h2 { font-size: 2.2rem; color: var(--text-title); font-weight: 700; margin-bottom: 12px; }
+        .section-header p { font-size: 1rem; color: var(--text-body); }
 
+        /* تعديل الـ Grid وتوحيد ارتفاع الصفوف تلقائياً */
         .grid-features {
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 1200px; margin: 0 auto;
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 24px; 
+            max-width: 1200px; 
+            margin: 0 auto;
+            grid-auto-rows: 1fr; /* يخلي كل الكروت في نفس الصف بنفس الارتفاع بالملي */
         }
 
-        .card { background: var(--bg-card); border: 1px solid var(--border); padding: 35px 25px; border-radius: 20px; }
-        .card:hover { transform: translateY(-6px); border-color: var(--border-hover); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05); }
-        .card-icon { width: 55px; height: 55px; background: rgba(77, 92, 170, 0.06); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--primary); margin-bottom: 20px; }
-        .card h3 { font-size: 1.3rem; color: var(--text-title); font-weight: 600; margin-bottom: 12px; }
-        .card p { color: var(--text-body); font-size: 0.95rem; line-height: 1.6; }
+        /* تحويل الكرت إلى Flexbox لإجبار الزر على الهبوط لأسفل */
+        .card { 
+            background: var(--bg-card); 
+            border: 1px solid var(--border); 
+            padding: 35px 28px; 
+            border-radius: 24px; 
+            display: flex; 
+            flex-direction: column; /* ترتيب المحتويات عمودياً */
+            position: relative; 
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .card:hover { transform: translateY(-8px); border-color: var(--border-hover); box-shadow: 0 20px 40px rgba(77, 92, 170, 0.05); }
+        
+        .card-icon { 
+            width: 52px; height: 52px; background: rgba(77, 92, 170, 0.06); border-radius: 14px; 
+            display: flex; align-items: center; justify-content: center; color: var(--primary); margin-bottom: 22px; 
+        }
+        .card h3 { font-size: 1.25rem; color: var(--text-title); font-weight: 700; margin-bottom: 12px; }
+        .card p { color: var(--text-body); font-size: 0.95rem; line-height: 1.7; flex-grow: 1; }
 
-        /* Discord Box */
-        .discord-cta-section { padding: 40px 5% 80px; max-width: 1200px; margin: 0 auto; }
+        /* وزنية الزر المغناطيسية لمنع الفراغات العشوائية */
+        .card-action-btn {
+            margin-top: auto; /* يدف الزر لأسفل الكرت تماماً ويلغي الفراغ المزعج */
+            padding: 12px; 
+            background: rgba(77, 92, 170, 0.05); 
+            color: var(--primary);
+            text-decoration: none; 
+            border-radius: 12px; 
+            font-weight: 600; 
+            font-size: 0.88rem;
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px; 
+            transition: all 0.2s ease;
+        }
+        .card-action-btn:hover { background: var(--primary); color: #ffffff; }
+
+        .premium-quick-section { background: rgba(255, 255, 255, 0.6); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+        .premium-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; max-width: 900px; margin: 0 auto; }
+        .p-box { background: var(--bg-card); border: 1px solid var(--border); padding: 30px; border-radius: 20px; }
+        .p-box.featured { border-color: #f59e0b; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.05); position: relative; }
+        .p-box.featured .p-badge { position: absolute; top: 20px; left: 20px; background: #f59e0b; color: #fff; font-size: 0.75rem; padding: 4px 10px; border-radius: 8px; font-weight: 700; }
+        .p-box h4 { font-size: 1.2rem; color: var(--text-title); margin-bottom: 15px; display: flex; align-items: center; gap: 8px; }
+        .p-box ul { list-style: none; }
+        .p-box ul li { font-size: 0.92rem; margin-bottom: 10px; display: flex; align-items: center; gap: 8px; color: var(--text-body); }
+        .p-box ul li span { color: #10b981; font-size: 18px; }
+
+        .discord-cta-section { padding: 40px 6% 80px; max-width: 1200px; margin: 0 auto; }
         .discord-box {
-            background: var(--discord-gradient); border-radius: 24px; padding: 45px 35px;
-            display: flex; align-items: center; justify-content: space-between; gap: 30px;
-            box-shadow: 0 15px 35px rgba(64, 78, 237, 0.2); position: relative; overflow: hidden;
+            background: var(--discord-gradient); border-radius: 28px; padding: 50px 40px;
+            display: flex; align-items: center; justify-content: space-between; gap: 40px;
+            box-shadow: 0 15px 35px rgba(64, 78, 237, 0.25); position: relative; overflow: hidden;
+        }
+        .discord-box::before {
+            content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px;
+            background: rgba(255,255,255,0.05); border-radius: 50%; pointer-events: none;
         }
         .discord-info { position: relative; z-index: 2; }
-        .discord-info h3 { color: #ffffff; font-size: 1.8rem; font-weight: 700; margin-bottom: 10px; }
-        .discord-info p { color: rgba(255, 255, 255, 0.85); font-size: 1rem; line-height: 1.6; max-width: 650px; }
+        .discord-info h3 { color: #ffffff; font-size: 1.9rem; font-weight: 700; margin-bottom: 10px; }
+        .discord-info p { color: rgba(255, 255, 255, 0.9); font-size: 1rem; line-height: 1.7; max-width: 650px; }
         
         .btn-discord-join {
-            position: relative; z-index: 2; background: #ffffff; color: #404eed; padding: 16px 32px;
+            position: relative; z-index: 2; background: #ffffff; color: #404eed; padding: 16px 36px;
             border-radius: 14px; font-size: 1.05rem; font-weight: 700; text-decoration: none;
-            display: flex; align-items: center; justify-content: center; gap: 10px;
+            display: flex; align-items: center; justify-content: center; gap: 10px; flex-shrink: 0; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: all 0.25s ease;
         }
-        .btn-discord-join:hover { transform: translateY(-3px); background: #f4f5f9; }
+        .btn-discord-join:hover { transform: translateY(-3px); background: #f4f5f9; box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
         .discord-icon-svg { width: 22px; height: 22px; fill: #404eed; }
 
-        footer { padding: 40px 5%; text-align: center; font-size: 0.9rem; color: var(--text-body); border-top: 1px solid var(--border); }
+        footer { padding: 40px 5%; text-align: center; font-size: 0.9rem; color: var(--text-body); border-top: 1px solid var(--border); background: #ffffff; }
         footer span { color: var(--text-title); font-weight: 600; }
 
-        /* Media Queries للشاشات الصغيرة والجوالات */
         @media (max-width: 992px) {
-            h1 { font-size: 2.5rem; }
-            .discord-box { flex-direction: column; text-align: center; padding: 35px 25px; }
+            h1 { font-size: 2.6rem; }
+            .discord-box { flex-direction: column; text-align: center; padding: 40px 30px; gap: 25px; }
             .btn-discord-join { width: 100%; }
         }
-        @media (max-width: 600px) {
-            nav { padding: 0 4%; }
-            .logo span:not(.material-symbols-rounded) { display: none; } /* إخفاء النص الطويل باللوجو على الجوالات الصغيرة */
-            h1 { font-size: 2rem; }
-            .hero p { font-size: 1rem; }
-            .btn-hero-main, .btn-hero-sub { width: 100%; }
-        }
+@media (max-width: 680px) {
+    nav {
+        padding: 0 4%;
+        height: 75px;
+    }
+    .logo span {
+        font-size: 1.1rem; /* تصغير حجم اللوجو قليلاً ليعطي مساحة */
+    }
+    .nav-actions {
+        gap: 8px; /* تقريب الأزرار من بعضها */
+    }
+    .btn-nav-link, .btn-nav-invite {
+        padding: 8px 12px; /* تصغير حجم حواف الأزرار لتناسب الجوال */
+        font-size: 0.8rem;
+    }
+    h1 { font-size: 2.1rem; }
+    .hero p { font-size: 1rem; }
+    .btn-hero-main, .btn-hero-sub { width: 100%; }
+    .grid-features { grid-template-columns: 1fr; grid-auto-rows: auto; }
+}
     </style>
 </head>
 <body>
     <div class="neon-glow-1"></div>
+    
     <nav>
         <a href="/" class="logo">
             <span class="material-symbols-rounded" style="font-size: 32px; color: var(--primary);">cyclone</span>
-            <span>Stella Bot</span>
+            <span style="font-weight: 700;">Stella Bot</span>
         </a>
         <div class="nav-actions">
-            <a href="premium/" class="btn-nav-invite" style="background: transparent; color: var(--text-title); border: 1px solid var(--border); box-shadow: none;">
-                <span class="material-symbols-rounded" style="font-size: 20px; color: #f59e0b;">workspace_premium</span>
-                البريميوم
+            <a href="partner/" class="btn-nav-link">
+                <span class="material-symbols-rounded" style="font-size: 18px; color: var(--primary);">all_inclusive</span>
+               الشركاء
             </a>
-            <a href="partner/" class="btn-nav-invite">
-                <span class="material-symbols-rounded" style="font-size: 20px;">all_inclusive</span>
-                شركاء ستيلا
+            <a href="premium/" class="btn-nav-invite">
+                <span class="material-symbols-rounded" style="font-size: 18px; color: #ffffff;">workspace_premium</span>
+               البريموم
             </a>
         </div>
     </nav>
 
     <header class="hero">
-        <div class="badge-firm"><span class="material-symbols-rounded" style="font-size: 18px;">news</span>جديد: اشتراك البريموم</div>
-        <h1>تحكّم كامل وخيارات قوية لسيرفرك</h1>
-        <p>ستيلا بوت يمنحك أقوى تجربة وأداء لسيرفرك وبأوامر سهلة ومميزات اقوى لكل الأوامر ونسبة 80% مجانية</p>
+        <div class="badge-firm"><span class="material-symbols-rounded" style="font-size: 18px;">auto_awesome</span>جديد: نظام الفعاليات</div>
+        <h1>تحكّم كامل وخيارات <span>قوية ومبتكرة</span> لسيرفرك</h1>
+        <p>ستيلا بوت يمنحك أقوى تجربة إدارة متكاملة داخل ديسكورد، استمتع بمميزات متطورة لحماية خادمك وتنشيط أعضائك بنسبة 80% مجاناً بالكامل</p>
         <div class="hero-buttons">
-            <a href="https://discord.com/oauth2/authorize?client_id=697781426527010877" class="btn-hero-main"><span class="material-symbols-rounded">bolt</span>أضف إلى ديسكورد</a>
-            <a href="commands/" class="btn-hero-sub"><span class="material-symbols-rounded">text_ad</span>الأوامر</a>
+            <a href="https://discord.com/oauth2/authorize?client_id=697781426527010877" class="btn-hero-main"><span class="material-symbols-rounded">bolt</span>أضف ستيلا بوت</a>
+            <a href="commands/" class="btn-hero-sub"><span class="material-symbols-rounded">terminal</span>استكشف الأوامر</a>
         </div>
     </header>
 
     <section id="features">
         <div class="section-header">
-            <h2>يمنحك أقوى المميزات والتحكم</h2>
+            <h2>مزايا خارقة تضع خادمك في الصدارة</h2>
+            <p>منظومة برمجية متكاملة لراحة بالك وتسلية أعضاء مجتمعك</p>
         </div>
         <div class="grid-features">
+            <!-- كرت الحماية -->
             <div class="card">
                 <div class="card-icon"><span class="material-symbols-rounded">shield</span></div>
-                <h3>نظام حماية قوي</h3>
-                <p>تتبع فوري للحماية والسجلات بشكل مباشر مع امكانية تخصيص كل سجل على حدى</p>
+                <h3>نظام حماية ذكي</h3>
+                <p>تتبع فوري للحماية والسجلات بشكل مباشر مع إمكانية تخصيص وتوجيه كل سجل على حدة لغرف خاصة بدقة.</p>
             </div>
+            <!-- كرت التذاكر -->
             <div class="card">
-                <div class="card-icon"><span class="material-symbols-rounded">construction</span></div>
+                <div class="card-icon"><span class="material-symbols-rounded">confirmation_number</span></div>
                 <h3>التذاكر والدعم الفني</h3>
-                <p>قم بانشاء منظومة التذاكر الخاصة بك وعدلها على مزاجك من الألوان الى النصوص وغيرها الكثير</p>
+                <p>قم بإنشاء منظومة التذاكر المتقدمة الخاصة بك وعدلها بالكامل؛ من الأزرار والألوان إلى النصوص والترحيب التلقائي.</p>
             </div>
+            <!-- كرت الرتب التلقائية -->
             <div class="card">
-                <div class="card-icon"><span class="material-symbols-rounded">hdr_auto</span></div>
-                <h3>الرتب التلقائية</h3>
-                <p>امنح الاعضاء / البوتات الجدد إلى السيرفر عضوية تلقائية بدلاً من أن تقوم بها يدوياً</p>
+                <div class="card-icon"><span class="material-symbols-rounded">person_add</span></div>
+                <h3>الرتب التلقائية الفورية</h3>
+                <p>امنح الأعضاء والبوتات الجدد فور دخولهم السيرفر رتباً مخصصة تلقائياً لمنع التخريب وتوفير وقتك التثبيتي.</p>
             </div>
+            <!-- كرت المستويات -->
+            <div class="card">
+                <div class="card-icon"><span class="material-symbols-rounded">leaderboard</span></div>
+                <h3>نظام مستويات تفاعلي</h3>
+                <p>أدر مستويات وتفاعل أعضائك بترقيم ونظام مكافآت رتب فريد وخاص بك يزيد من نشاط الشات والتفاعل اليومي.</p>
+            </div>
+            <!-- كرت العملات (الحين صار متناسق وموزون 100%) -->
+            <div class="card">
+                <div class="card-icon"><span class="material-symbols-rounded">monetization_on</span></div>
+                <h3>اقتصاد مستقر وقوي</h3>
+                <p>عملة افتراضية فريدة ذو قيمة حقيقية قوية داخل نظام ستيلا، حيث تعادل قيمتها التقديرية 1$ لكل 1 ستيلا.</p>
+                <a href="coins-value/" class="card-action-btn">
+                    <span class="material-symbols-rounded" style="font-size: 16px;">trending_up</span>
+                    تتبع قيمة العملة مباشرة
+                </a>
+            </div>
+            <!-- كرت الترحيب -->
+            <div class="card">
+                <div class="card-icon"><span class="material-symbols-rounded">account_circle</span></div>
+                <h3>ترحيب مخصص وإبداعي</h3>
+                <p>صمم واجهة رسائل الترحيب والمغادرة الخاصة بك، سواءً كانت رسالة عادية أو إمبيد</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><span class="material-symbols-rounded">celebration</span></div>
+                <h3>نظام الفعاليات</h3>
+                <p>قم بانشاء نظام فعاليات قوي وفعال في خادمك للمشاركة وخصصه على تصميمك من ازرار إلى رياكشنات وغيره العديد</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><span class="material-symbols-rounded">mosque</span></div>
+                <h3>تتبع الاذكار اليومية واوقات الصلاة</h3>
+                <p>قم بتهيئة الاذكار اليومية بتصميمك الفريد والخاص وقم بتذكير أوقات الصلاة يومياً وفي كل الدول التي تختارها باختيارك الخاص</p>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"><span class="material-symbols-rounded">store</span></div>
+                <h3>دِر متجرك باتقان</h3>
+                <p>يوفر إليك ستيلا بوت ميزة ادارةالمنتجات ضمن متجرك وعملية البيع والشراء ضمن عملة ستيلا بوت الحالية</p>
+            </div>
+
         </div>
-		<br>
-		<div class="grid-features">
-            <div class="card">
-                <div class="card-icon"><span class="material-symbols-rounded">equalizer</span></div>
-                <h3>نظام المستويات</h3>
-                <p>در نظامك الخاص بالمستويات بترقيم معين ولكل عضو محدد، وتلاعب به بقدر ماتشاء، واضف مكافأة لاعضائك</p>
-            </div>
-            <div class="card">
-                <div class="card-icon"><span class="material-symbols-rounded">credit_card</span></div>
-                <h3>العملات</h3>
-                <p>تأكد تماماً من أن عملة ستيلا بوت واقعية وهي عملة ذو قيمة قوية جداً "تعادل 1$ لكل 1 ستيلا"</p>
-				<br>
-				<a href="coins-value/" class="btn-hero-sub">تتبع قيمة العملة مباشرة</a>
-            </div>
-            <div class="card">
-                <div class="card-icon"><span class="material-symbols-rounded">handshake</span></div>
-                <h3>الترحيب بالاعضاء</h3>
-                <p>عدل نظام الترحيب على مزاجك الخاص وكيف تريده، رسالة عادية أو امبيد، وغيره من الاعدادات</p>
-            </div>
-		</div>
     </section>
+
 
     <section class="discord-cta-section">
         <div class="discord-box">
             <div class="discord-info">
                 <h3>انضم إلى مجتمع ستيلّا الرسمي!</h3>
-                <p>ادخل معنا لتلقي الدعم الفني الفوري، مناقشة آخر التحديثات البرمجية، والمشاركة في الفعاليات المستمرة</p>
+                <p>ادخل معنا لتلقي الدعم الفني الفوري، ومناقشة آخر التحديثات البرمجية، والمشاركة في الفعاليات والجوائز المستمرة.</p>
             </div>
             <a href="https://discord.gg/PgNTg6SzZF" class="btn-discord-join">
                 <svg class="discord-icon-svg" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,77.26,0a77.19,77.19,0,0,0-3.3,6.83A96.67,96.67,0,0,0,53.22,6.83,77.19,77.19,0,0,0,49.88,0,105.15,105.15,0,0,0,19.44,8.07C3.66,31.58-1.86,54.65,1,77.53A105.73,105.73,0,0,0,32,96.36a74.37,74.37,0,0,0,6.72-11A68.6,68.6,0,0,1,28.11,79.9c.85-.63,1.68-1.3,2.5-2a75.4,75.4,0,0,0,66,0c.82.69,1.65,1.36,2.5,2a68.43,68.43,0,0,1-10.65,5.47,74.87,74.87,0,0,0,6.71,11,105.82,105.82,0,0,0,31.62-18.83C129.51,48.59,123.3,25.86,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53S36.18,40.36,42.45,40.36,53.92,46,53.79,53,48.72,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.24,60,73.24,53S78.41,40.36,84.69,40.36,96.16,46,96,53,91,65.69,84.69,65.69Z"/></svg>
