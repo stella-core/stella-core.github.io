@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stella Bot | مؤشر قيمة العملة</title>
+    <title>Stella Bot | تتبع قيمة العملة</title>
+    <link rel="icon" type="image/png" href="../logo.png">
     
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Stella Bot | تتبع قيمة العملة">
+    <meta property="og:description" content="صفحة ستيلا بوت الرسمية">
+    <meta property="og:image" content="../logo.png">
+    <meta property="og:theme-color" content="#4d5caa">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,20 +23,16 @@
         :root {
             --bg-main: #f3f5fa;
             --bg-card: #ffffff;
-            --bg-card-hover: #f8fafc;
             --text-title: #11131e;
             --text-body: #5f6674;
             --border: rgba(0, 0, 0, 0.05);
-            --border-hover: rgba(77, 92, 170, 0.3);
             --primary: #4d5caa;
+            --primary-gradient: linear-gradient(135deg, #4d5caa 0%, #6879d6 100%);
             --primary-glow: rgba(77, 92, 170, 0.06); 
             --nav-bg: rgba(243, 245, 250, 0.85);
             
-            /* ألوان الحالات الديناميكية */
             --success: #10b981;
             --success-glow: rgba(16, 185, 129, 0.1);
-            --warning: #f59e0b;
-            --warning-glow: rgba(245, 158, 11, 0.1);
             --danger: #ef4444;
             --danger-glow: rgba(239, 68, 68, 0.1);
         }
@@ -39,7 +42,6 @@
             margin: 0;
             padding: 0;
             font-family: 'IBM Plex Sans Arabic', sans-serif;
-            transition: background-color 0.3s ease, border-color 0.3s ease, color 0.2s ease, transform 0.3s ease;
         }
 
         body {
@@ -47,7 +49,7 @@
             color: var(--text-body);
             overflow-x: hidden;
             position: relative;
-            padding-top: 110px;
+            padding-top: 120px;
         }
 
         .neon-glow-1 {
@@ -61,86 +63,141 @@
             font-family: 'Material Symbols Rounded' !important;
             font-weight: normal; font-style: normal; font-size: 24px; line-height: 1;
             display: inline-block; direction: ltr; -webkit-font-smoothing: antialiased;
-            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        /* Navbar ثابته ومتناسقة */
         nav {
             position: fixed; top: 0; left: 0; right: 0; height: 85px;
             background: var(--nav-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             display: flex; align-items: center; justify-content: space-between;
-            padding: 0 5%; z-index: 1000;
+            padding: 0 6%; z-index: 1000;
         }
 
         .logo {
-            font-size: 1.5rem; font-weight: 700; color: var(--text-title);
-            display: flex; align-items: center; gap: 10px; text-decoration: none;
+            font-size: 1.4rem; font-weight: 700; color: var(--text-title);
+            display: flex; align-items: center; gap: 8px; text-decoration: none;
         }
 
         .btn-back {
             background: transparent; color: var(--text-title); border: 1px solid var(--border);
-            padding: 10px 18px; border-radius: 12px; text-decoration: none; font-weight: 600;
-            display: flex; align-items: center; gap: 6px; font-size: 0.9rem;
+            padding: 8px 16px; border-radius: 12px; text-decoration: none; font-weight: 600;
+            display: flex; align-items: center; gap: 6px; font-size: 0.88rem;
         }
-        .btn-back:hover { background: var(--border); }
 
-        /* حاوية المحتوى الرئيسي */
+        /* حاوية مرنة ومريحة على الشاشات الكبيرة */
         .content-container {
-            max-width: 1000px; margin: 0 auto; padding: 20px 5% 80px;
+            max-width: 1200px; margin: 0 auto; padding: 10px 4% 80px;
             display: flex; flex-direction: column; gap: 30px;
+            width: 100%;
         }
 
-        .page-header { text-align: center; margin-bottom: 10px; }
-        .page-header h1 { font-size: 2.5rem; color: var(--text-title); font-weight: 700; margin-bottom: 10px; }
-        .page-header p { font-size: 1.1rem; color: var(--text-body); }
+        .page-header { 
+            text-align: center; 
+            margin-bottom: 5px; 
+            padding: 0 10px;
+        }
+        .page-header h1 { 
+            font-size: 2.4rem; 
+            color: var(--text-title); 
+            font-weight: 700; 
+            margin-bottom: 10px; 
+        }
+        .page-header h1 span {
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .page-header p { 
+            font-size: 1.05rem; 
+            color: var(--text-body); 
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
 
-        /* كارت عرض القيمة المباشرة */
+        /* هنا السر: توزيع مريح جداً على الديسكتوب، الشارت يأخذ المساحة الأكبر بالكامل */
+        .market-upper-layout {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 25px;
+            width: 100%;
+        }
+
         .value-card {
             background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px;
-            padding: 30px; display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01); flex-wrap: wrap; gap: 20px;
+            padding: 28px 24px; display: flex; flex-direction: column; justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01);
+            width: 100%;
         }
 
-        .coin-meta { display: flex; align-items: center; gap: 20px; }
+        .coin-meta { display: flex; align-items: center; gap: 14px; }
         .coin-icon-wrapper {
-            width: 60px; height: 60px; background: rgba(77, 92, 170, 0.08);
-            color: var(--primary); border-radius: 18px; display: flex; align-items: center;
-            justify-content: center; font-size: 32px;
+            width: 52px; height: 52px; background: rgba(77, 92, 170, 0.08);
+            color: var(--primary); border-radius: 16px; display: flex; align-items: center;
+            justify-content: center; font-size: 26px; flex-shrink: 0;
         }
-
-        .coin-details h2 { font-size: 1.4rem; color: var(--text-title); font-weight: 700; margin-bottom: 4px; }
+        .coin-details h2 { font-size: 1.2rem; color: var(--text-title); font-weight: 700; }
         
-        /* شارة الحالة المتغيرة تلقائياً */
         .status-badge {
-            display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px;
-            border-radius: 100px; font-size: 0.85rem; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 4px; padding: 4px 12px;
+            border-radius: 100px; font-size: 0.8rem; font-weight: 600; margin-top: 4px;
         }
 
-        /* نظام التحديث والوقت المباشر */
+        .coin-price-area { margin: 25px 0; width: 100%; }
+        .coin-price {
+            font-size: 2.5rem; font-weight: 700; color: var(--text-title); font-family: monospace;
+            background: rgba(77, 92, 170, 0.04); padding: 12px; border-radius: 16px;
+            border: 1px solid rgba(77, 92, 170, 0.05); display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%;
+        }
+
         .live-update-tracker {
-            display: flex; align-items: center; gap: 6px; font-size: 0.85rem;
-            color: var(--text-body); font-weight: 500; margin-top: 6px; background: rgba(0, 0, 0, 0.03);
-            padding: 4px 12px; border-radius: 8px; width: fit-content;
+            display: flex; align-items: center; gap: 6px; font-size: 0.8rem;
+            color: var(--text-body); font-weight: 500; background: rgba(0, 0, 0, 0.02);
+            padding: 8px 12px; border-radius: 10px; width: 100%; justify-content: center;
         }
         .pulse-dot {
-            width: 7px; height: 7px; background-color: var(--primary); border-radius: 50%;
+            width: 7px; height: 7px; background-color: var(--success); border-radius: 50%;
             animation: pulse-animation 1.5s infinite ease-in-out;
         }
 
-        .coin-price-area { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; width: fit-content; }
-        .coin-price {
-            font-size: 2.8rem; font-weight: 700; color: var(--text-title); font-family: monospace;
-            background: rgba(77, 92, 170, 0.04); padding: 6px 22px; border-radius: 16px;
-            border: 1px solid rgba(77, 92, 170, 0.05); display: flex; align-items: center; gap: 8px;
+        /* كارت الشارت يمتد بأريحية تامة على الديسكتوب */
+        .chart-card { 
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; 
+            padding: 26px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01); 
+            display: flex; flex-direction: column;
+            width: 100%; min-width: 0; 
         }
+        .chart-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 15px; }
+        .chart-card-header h3 { font-size: 1.15rem; color: var(--text-title); font-weight: 600; }
+        
+        .time-filters { display: flex; background: #f0f2f7; padding: 4px; border-radius: 12px; gap: 2px; }
+        .filter-btn {
+            background: transparent; border: none; padding: 6px 14px; font-size: 0.85rem;
+            font-weight: 600; color: var(--text-body); border-radius: 9px; cursor: pointer;
+        }
+        .filter-btn.active { background: var(--bg-card); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 
-        /* كارت الرسم البياني */
-        .chart-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 24px; padding: 30px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.01); }
-        .chart-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .chart-card-header h3 { font-size: 1.2rem; color: var(--text-title); font-weight: 600; }
-        .chart-info-note { font-size: 0.85rem; color: var(--text-body); }
-        .chart-wrapper { width: 100%; height: 320px; position: relative; }
+        /* مساحة شارت ممتازة ومريحة للرؤية بالديسكتوب */
+        .chart-wrapper { width: 100%; height: 290px; position: relative; min-width: 0; }
+
+        .stats-section-title { font-size: 1.25rem; color: var(--text-title); font-weight: 700; margin-top: 10px; margin-bottom: 2px; padding: 0 4px; }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+        .stat-box {
+            background: var(--bg-card); border: 1px solid var(--border); border-radius: 18px;
+            padding: 18px; display: flex; flex-direction: column; gap: 6px; box-shadow: 0 4px 15px rgba(0,0,0,0.005);
+        }
+        .stat-box .label { font-size: 0.88rem; color: var(--text-body); font-weight: 500; }
+        .stat-box .value { font-size: 1.4rem; font-weight: 700; color: var(--text-title); font-family: monospace; }
+        
+        .trend-up { color: var(--success) !important; }
+        .trend-down { color: var(--danger) !important; }
 
         @keyframes pulse-animation {
             0% { transform: scale(0.9); opacity: 0.4; }
@@ -148,19 +205,40 @@
             100% { transform: scale(0.9); opacity: 0.4; }
         }
 
-        footer { padding: 40px 5%; text-align: center; font-size: 0.9rem; color: var(--text-body); border-top: 1px solid var(--border); margin-top: auto; }
+        footer { padding: 35px 5%; text-align: center; font-size: 0.88rem; color: var(--text-body); border-top: 1px solid var(--border); margin-top: auto; }
         footer span { color: var(--text-title); font-weight: 600; }
 
-        @media (max-width: 768px) {
+        /* ========================================== */
+        /* 📱 التوافق الكامل مع الهواتف والشاشات الصغيرة */
+        /* ========================================== */
+        @media (max-width: 900px) {
             body { padding-top: 100px; }
-            .page-header h1 { font-size: 2rem; }
-            .value-card { padding: 20px; flex-direction: column; text-align: center; }
-            .coin-meta { flex-direction: column; gap: 10px; }
-            .live-update-tracker { margin: 6px auto 0; }
-            .coin-price-area { align-items: center; width: 100%; }
-            .coin-price { font-size: 2.2rem; width: 100%; justify-content: center; }
-            .chart-card { padding: 20px; }
-            .chart-wrapper { height: 240px; }
+            .page-header h1 { font-size: 1.9rem; }
+            .page-header p { font-size: 0.95rem; }
+            
+            /* ينقلب عمودياً على الموبايل لكي لا ينضغط الشارت أفقياً */
+            .market-upper-layout { grid-template-columns: 1fr; gap: 20px; }
+            .coin-price { font-size: 2.2rem; }
+            
+            .chart-card { padding: 18px; }
+            .chart-card-header { flex-direction: column; align-items: stretch; text-align: center; gap: 12px; }
+            .chart-card-header h3 { text-align: right; font-size: 1.05rem; }
+            .time-filters { width: 100%; justify-content: space-between; }
+            .filter-btn { flex: 1; text-align: center; padding: 7px 0; font-size: 0.8rem; }
+            .chart-wrapper { height: 220px; }
+
+            /* كرتين لكل سطر في الموبايل */
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .stat-box { padding: 14px; gap: 4px; }
+            .stat-box .label { font-size: 0.78rem; }
+            .stat-box .value { font-size: 1.15rem; }
+        }
+
+        @media (max-width: 440px) {
+            /* كرت واحد بالسطر للهواتف الصغيرة جداً لتفادي ضيق المساحة */
+            .stats-grid { grid-template-columns: 1fr; }
+            .logo { font-size: 1.25rem; }
+            .btn-back { padding: 6px 12px; font-size: 0.8rem; }
         }
     </style>
 </head>
@@ -169,55 +247,74 @@
     
     <nav>
         <a href="/" class="logo">
-            <span class="material-symbols-rounded" style="font-size: 30px; color: var(--primary);">cyclone</span>
+            <span class="material-symbols-rounded" style="font-size: 28px; color: var(--primary);">cyclone</span>
             <span style="color: var(--text-title)">Stella Bot</span>
         </a>
         <a href="/" class="btn-back">
-            <span class="material-symbols-rounded" style="font-size: 18px;">arrow_forward</span>
-            الرئيسية
+            <span class="material-symbols-rounded" style="font-size: 16px;">arrow_forward</span> الرئيسية
         </a>
     </nav>
 
     <div class="content-container">
         
+        <!-- نص العنوان بالمنتصف المعتمد -->
         <div class="page-header">
-            <h1>مؤشر قيمة عملة Stella</h1>
+            <h1>مؤشر قيمة عملة <span>ستيلا</span> بوت</h1>
             <p>تتبع الأداء المباشر، الاستقرار، والتحديثات التاريخية لعملة ستيلا الرسمية.</p>
         </div>
-
-        <div class="value-card">
-            <div class="coin-meta">
-                <div class="coin-icon-wrapper">
-                    <span class="material-symbols-rounded">monetization_on</span>
-                </div>
-                <div class="coin-details">
-                    <h2>عملة ستيلا (STLA)</h2>
-                    
-                    <div class="status-badge" id="coinStatusBadge"></div>
-                    
-                    <div class="live-update-tracker">
-                        <div class="pulse-dot" id="statusPulseDot"></div>
-                        <span id="liveTimeStamp">جاري جلب توقيت التحديث الفوري...</span>
+        
+        <div class="market-upper-layout">
+            <!-- كارت السعر الفوري المحدث -->
+            <div class="value-card">
+                <div class="coin-meta">
+                    <div class="coin-icon-wrapper">
+                        <span class="material-symbols-rounded">monetization_on</span>
+                    </div>
+                    <div class="coin-details">
+                        <h2>عملة ستيلا (STLA)</h2>
+                        <div class="status-badge" id="coinStatusBadge"></div>
                     </div>
                 </div>
+                
+                <div class="coin-price-area">
+                    <div class="coin-price">
+                        <span id="priceTrendIcon" class="material-symbols-rounded" style="font-size: 28px;">trending_flat</span>
+                        <span id="priceText">1.00$</span>
+                    </div>
+                </div>
+
+                <div class="live-update-tracker">
+                    <div class="pulse-dot"></div>
+                    <span id="liveTimeStamp">جاري الحساب...</span>
+                </div>
             </div>
-            
-            <div class="coin-price-area">
-                <div class="coin-price" id="mainCoinPrice">
-                    <span id="priceTrendIcon" class="material-symbols-rounded" style="font-size: 28px;">trending_flat</span>
-                    <span id="priceText">1.00$</span>
+
+            <!-- كارت الشارت الفخم والواسع على الديسكتوب والذكي على الموبايل -->
+            <div class="chart-card">
+                <div class="chart-card-header">
+                    <h3>الرسم البياني المباشر لحالة العملة</h3>
+                    <div class="time-filters">
+                        <button class="filter-btn active" onclick="changeTimeframe('1D')">يوم</button>
+                        <button class="filter-btn" onclick="changeTimeframe('1W')">أسبوع</button>
+                        <button class="filter-btn" onclick="changeTimeframe('1M')">شهر</button>
+                        <button class="filter-btn" onclick="changeTimeframe('3M')">3 أشهر</button>
+                        <button class="filter-btn" onclick="changeTimeframe('1Y')">سنة</button>
+                    </div>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="stellaLiveChart"></canvas>
                 </div>
             </div>
         </div>
 
-        <div class="chart-card">
-            <div class="chart-card-header">
-                <h3>مؤشر العملة (اليوم)</h3>
-                <span class="chart-info-note">الايقونة ▲ تدل على اليوم</span>
-            </div>
-            <div class="chart-wrapper">
-                <canvas id="stellaLiveChart"></canvas>
-            </div>
+        <h3 class="stats-section-title">إحصائيات الأسعار والأداء</h3>
+        <div class="stats-grid">
+            <div class="stat-box"><span class="label">التغيير اليومي (24h)</span><span class="value" id="stat-change-1d">0.00%</span></div>
+            <div class="stat-box"><span class="label">التغيير الأسبوعي (7d)</span><span class="value" id="stat-change-1w">0.00%</span></div>
+            <div class="stat-box"><span class="label">التغيير الشهري (30d)</span><span class="value" id="stat-change-1m">0.00%</span></div>
+            <div class="stat-box"><span class="label">الإغلاق اليومي السابق</span><span class="value" id="stat-prev-close">0.00$</span></div>
+            <div class="stat-box"><span class="label">أعلى سعر (خلال المدة)</span><span class="value" id="stat-high">0.00$</span></div>
+            <div class="stat-box"><span class="label">أدنى سعر (خلال المدة)</span><span class="value" id="stat-low">0.00$</span></div>
         </div>
 
     </div>
@@ -227,164 +324,169 @@
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
+        const priceHistory = [
+            0.85, 0.88, 0.90, 0.92, 0.95, 0.93, 0.96, 1.01, 0.99, 1.03,
+            1.05, 1.02, 1.08, 1.12, 1.10, 1.05, 1.02, 0.98, 0.95, 0.97,
+            1.01, 1.03, 1.00, 1.02, 1.05, 1.01, 0.99, 1.02, 1.04, 1.06,
+            1.02, 1.03, 1.01, 1.00, 0.98, 1.00, 1.00
+        ];
+
+        let myChart = null;
+        let currentTimeframe = '1D';
+
+        function getDataForTimeframe(timeframe) {
+            let data = [];
+            let labels = [];
+
+            if (timeframe === '1D') {
+                data = priceHistory.slice(-2);
+                labels = ['أمس', 'اليوم الحالي ▲'];
+            } else if (timeframe === '1W') {
+                data = priceHistory.slice(-7);
+                labels = ['السبت', 'الأحد', 'الإثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'اليوم ▲'];
+            } else if (timeframe === '1M') {
+                data = priceHistory.slice(-30);
+                for(let i=29; i>=0; i--) labels.push(i === 0 ? 'اليوم ▲' : `قبل ${i} يوم`);
+            } else if (timeframe === '3M') {
+                data = priceHistory.slice(-90);
+                for(let i=data.length-1; i>=0; i--) {
+                    if(i % 15 === 0 || i === data.length-1) labels.push(i === data.length-1 ? 'اليوم ▲' : `قبل ${i} ي`);
+                    else labels.push('');
+                }
+            } else if (timeframe === '1Y') {
+                data = priceHistory;
+                for(let i=data.length-1; i>=0; i--) {
+                    if(i % 30 === 0 || i === data.length-1) labels.push(i === data.length-1 ? 'اليوم ▲' : `ش ${Math.floor(i/30)}`);
+                    else labels.push('');
+                }
+            }
+            return { data, labels };
+        }
+
+        function updateDashboard() {
+            const todayPrice = priceHistory[priceHistory.length - 1];
+            const yesterdayPrice = priceHistory[priceHistory.length - 2] || todayPrice;
+            const weekAgoPrice = priceHistory[priceHistory.length - 7] || yesterdayPrice;
+            const monthAgoPrice = priceHistory[priceHistory.length - 30] || weekAgoPrice;
+
+            document.getElementById('priceText').innerText = todayPrice.toFixed(2) + "$";
             
-            // =================================================================
-            // 🛑 1. اختر حالة العملة الحالية من هنا:
-            // "stable" (مستقر/أخضر) | "warning" (متذبذب/أصفر) | "danger" (هبوط/أحمر)
-            // =================================================================
-            const currentStatus = "stable"; 
-
-            // 🛑 2. ضع هنا أسعار الأيام التي تريد عرضها فقط.
-            // الكود سيفهم تلقائياً كم يوماً أضفت، وسيجعل آخر رقم هو "اليوم الحالي".
-            // مثال: إذا وضعت 4 أرقام، سيتوقف الرسم البياني عند اليوم الرابع (الثلاثاء) تلقائياً!
-            const activePrices = [1.02, 1.02, 1.00, 1.00, 1.00]; // السبت، الأحد، الإثنين، الثلاثاء
-
-            // أيام الأسبوع الثابتة الكاملة للشارت
-            const allLabels = ["السبت", "الأحد", "الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة"]; 
-
-            // دالة التحكم بالألوان والواجهات بناءً على الحالة المحددة
             const badgeElement = document.getElementById('coinStatusBadge');
-            const pulseDot = document.getElementById('statusPulseDot');
             const trendIcon = document.getElementById('priceTrendIcon');
-            let stateColor = "#10b981"; 
+            let themeColor = '#10b981';
 
-            if (currentStatus === "stable") {
-                badgeElement.innerHTML = `<span class="material-symbols-rounded" style="font-size: 16px;">check_circle</span> مستقر`;
+            if (todayPrice > yesterdayPrice) {
+                badgeElement.innerHTML = `<span class="material-symbols-rounded" style="font-size: 14px;">arrow_upward</span> مستقر وصاعد`;
                 badgeElement.style.backgroundColor = "var(--success-glow)"; badgeElement.style.color = "var(--success)";
-                pulseDot.style.backgroundColor = "var(--success)";
-                trendIcon.innerText = "trending_flat"; trendIcon.style.color = "var(--success)";
-                stateColor = "#10b981";
-            } else if (currentStatus === "warning") {
-                badgeElement.innerHTML = `<span class="material-symbols-rounded" style="font-size: 16px;">warning</span> متذبذب`;
-                badgeElement.style.backgroundColor = "var(--warning-glow)"; badgeElement.style.color = "var(--warning)";
-                pulseDot.style.backgroundColor = "var(--warning)";
-                trendIcon.innerText = "trending_down"; trendIcon.style.color = "var(--warning)";
-                stateColor = "#f59e0b";
-            } else if (currentStatus === "danger") {
-                badgeElement.innerHTML = `<span class="material-symbols-rounded" style="font-size: 16px;">error</span> هبوط`;
+                trendIcon.innerText = "trending_up"; trendIcon.style.color = "var(--success)";
+                themeColor = '#10b981';
+            } else if (todayPrice < yesterdayPrice) {
+                badgeElement.innerHTML = `<span class="material-symbols-rounded" style="font-size: 14px;">arrow_downward</span> هبوط`;
                 badgeElement.style.backgroundColor = "var(--danger-glow)"; badgeElement.style.color = "var(--danger)";
-                pulseDot.style.backgroundColor = "var(--danger)";
                 trendIcon.innerText = "trending_down"; trendIcon.style.color = "var(--danger)";
-                stateColor = "#ef4444";
+                themeColor = '#ef4444';
+            } else {
+                badgeElement.innerHTML = `<span class="material-symbols-rounded" style="font-size: 14px;">trending_flat</span> مستقر`;
+                badgeElement.style.backgroundColor = "rgba(0,0,0,0.04)"; badgeElement.style.color = "var(--text-title)";
+                trendIcon.innerText = "trending_flat"; trendIcon.style.color = "var(--text-body)";
+                themeColor = '#4d5caa';
             }
 
-            // ⚡ تحديد "مؤشر اليوم الحالي" ديناميكياً بناءً على عدد الأسعار التي أدخلتها أنت
-            const currentDayIndex = activePrices.length - 1; 
-            const currentArabicDay = allLabels[currentDayIndex] || "السبت";
+            const calcChange = (current, previous) => ((current - previous) / previous * 100);
+            
+            const change1d = calcChange(todayPrice, yesterdayPrice);
+            const change1w = calcChange(todayPrice, weekAgoPrice);
+            const change1m = calcChange(todayPrice, monthAgoPrice);
 
-            // تحويل المصفوفة لتعبئة الأيام المتبقية بـ null تلقائياً حتى لا تظهر في خط الشارت
-            const chartDataValues = allLabels.map((val, idx) => {
-                return idx <= currentDayIndex ? activePrices[idx] : null;
-            });
-
-            // ⚡ تحديث المربع الكبير تلقائياً بآخر قيمة أدخلتها في المصفوفة (قيمة اليوم الحالي)
-            const todayPrice = activePrices[currentDayIndex] !== undefined ? activePrices[currentDayIndex] : 1.00;
-            document.getElementById('priceText').innerText = todayPrice.toFixed(2) + "$";
-
-            // تحديث سطر التوقيت
-            const now = new Date();
-            let hours = now.getHours();
-            const minutes = String(now.getMinutes()).padStart(2, '0');
-            const ampm = hours >= 12 ? 'مساءً' : 'صباحاً';
-            hours = hours % 12; hours = hours ? hours : 12;
-            document.getElementById('liveTimeStamp').innerText = `تم التحديث: اليوم ${currentArabicDay} الساعة ${hours}:${minutes} ${ampm}`;
-
-            // تجهيز أنماط النقاط (آخر نقطة مضافة تظهر كمثلث)
-            const pointStyles = [];
-            const pointRadii = [];
-            const pointHoverRadii = [];
-            const pointColors = [];
-
-            allLabels.forEach((day, index) => {
-                if (index === currentDayIndex) { 
-                    pointStyles.push('triangle'); 
-                    pointRadii.push(11);          
-                    pointHoverRadii.push(13);
-                    pointColors.push(stateColor); 
+            const formatStatBox = (elementId, value, isPercentage = true) => {
+                const el = document.getElementById(elementId);
+                if(isPercentage) {
+                    el.innerText = (value >= 0 ? '+' : '') + value.toFixed(2) + '%';
+                    el.className = 'value ' + (value >= 0 ? 'trend-up' : 'trend-down');
                 } else {
-                    pointStyles.push('circle');   
-                    pointRadii.push(5);
-                    pointHoverRadii.push(8);
-                    pointColors.push('#4d5caa');
+                    el.innerText = value.toFixed(2) + '$';
                 }
-            });
+            };
 
-            // بناء المخطط البياني
-            const canvasElement = document.getElementById('stellaLiveChart');
-            if (!canvasElement) return;
+            formatStatBox('stat-change-1d', change1d);
+            formatStatBox('stat-change-1w', change1w);
+            formatStatBox('stat-change-1m', change1m);
+            formatStatBox('stat-prev-close', yesterdayPrice, false);
 
-            const ctx = canvasElement.getContext('2d');
-            const chartGradient = ctx.createLinearGradient(0, 0, 0, 280);
-            chartGradient.addColorStop(0, 'rgba(77, 92, 170, 0.23)');
-            chartGradient.addColorStop(1, 'rgba(77, 92, 170, 0.00)');
+            const currentConfig = getDataForTimeframe(currentTimeframe);
+            const maxRangePrice = Math.max(...currentConfig.data);
+            const minRangePrice = Math.min(...currentConfig.data);
+            formatStatBox('stat-high', maxRangePrice, false);
+            formatStatBox('stat-low', minRangePrice, false);
 
-            // حساب النطاق العمودي ديناميكياً لمنع التكرار الكريه للكسور في المحور Y
-            const validValues = chartDataValues.filter(v => v !== null);
-            const minY = Math.min(...validValues) - 0.02;
-            const maxY = Math.max(...validValues) + 0.02;
+            const now = new Date();
+            document.getElementById('liveTimeStamp').innerText = `تحديث فوري: الساعة ${now.getHours()}:${String(now.getMinutes()).padStart(2, '0')}`;
 
-            new Chart(ctx, {
+            const ctx = document.getElementById('stellaLiveChart').getContext('2d');
+            if (myChart) myChart.destroy();
+
+            const chartGradient = ctx.createLinearGradient(0, 0, 0, 270);
+            chartGradient.addColorStop(0, themeColor + '25'); 
+            chartGradient.addColorStop(1, themeColor + '00');
+
+            myChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    labels: allLabels, 
+                    labels: currentConfig.labels,
                     datasets: [{
-                        label: 'القيمة',
-                        data: chartDataValues, 
-                        borderColor: '#4d5caa',
-                        borderWidth: 3.5,
+                        data: currentConfig.data,
+                        borderColor: themeColor,
+                        borderWidth: 2.8,
                         fill: true,
                         backgroundColor: chartGradient,
-                        tension: 0.35,
-                        pointStyle: pointStyles,      
-                        pointRadius: pointRadii,      
-                        pointHoverRadius: pointHoverRadii,
-                        pointBackgroundColor: pointColors,
-                        pointBorderColor: '#ffffff',
+                        tension: 0.16, 
+                        pointRadius: currentConfig.data.map((_, i) => i === currentConfig.data.length - 1 ? 6 : 0), 
+                        pointBackgroundColor: themeColor,
+                        pointBorderColor: '#fff',
                         pointBorderWidth: 2,
-                        spanGaps: false 
                     }]
                 },
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: {
-                            rtl: true,
-                            backgroundColor: '#11131e',
-                            titleFont: { family: 'IBM Plex Sans Arabic', size: 13 },
-                            bodyFont: { family: 'IBM Plex Sans Arabic', size: 13 },
-                            padding: 12,
-                            borderRadius: 10,
-                            callbacks: {
-                                title: function(context) {
-                                    let idx = context[0].dataIndex;
-                                    return idx === currentDayIndex ? `${context[0].label} (اليوم الحالي)` : context[0].label;
-                                }
-                            }
-                        }
-                    },
+                    layout: { padding: { left: 2, right: 4, top: 10, bottom: 0 } },
+                    plugins: { legend: { display: false } },
                     scales: {
                         x: {
                             grid: { display: false },
-                            ticks: { color: '#5f6674', font: { family: 'IBM Plex Sans Arabic', size: 12 } }
+                            ticks: { 
+                                maxRotation: 0,
+                                autoSkip: true,
+                                color: '#5f6674', 
+                                font: { family: 'IBM Plex Sans Arabic', size: 10 } 
+                            }
                         },
                         y: {
-                            min: minY,
-                            max: maxY,
-                            grid: { color: 'rgba(0, 0, 0, 0.03)' },
+                            min: minRangePrice - (minRangePrice * 0.005),
+                            max: maxRangePrice + (maxRangePrice * 0.005),
+                            position: 'right', 
+                            grid: { color: 'rgba(0, 0, 0, 0.015)' },
                             ticks: { 
                                 color: '#5f6674', 
-                                font: { size: 12 },
-                                stepSize: 0.01, 
+                                font: { size: 10 },
                                 callback: function(value) { return '$' + value.toFixed(2); }
                             }
                         }
                     }
                 }
             });
-        });
+        }
+
+        function changeTimeframe(timeframe) {
+            currentTimeframe = timeframe;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if(btn.getAttribute('onclick').includes(timeframe)) btn.classList.add('active');
+            });
+            updateDashboard();
+        }
+
+        updateDashboard();
     </script>
 </body>
 </html>
