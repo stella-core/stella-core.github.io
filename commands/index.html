@@ -3,8 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stella Bot | لوحة الأوامر</title>
+    <title>Stella Bot | الأوامر</title>
     
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Stella Bot | الأوامر">
+    <meta property="og:description" content="صفحة ستيلا بوت الرسمية">
+    <meta property="og:image" content="../logo.png">
+    <meta property="og:theme-color" content="#4d5caa">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -283,49 +289,49 @@
     <script>
         const commandsData = [
             {
-                name: "/setup tickets",
+                name: "/ticket setup",
                 category: "ticket",
                 categoryIcon: "confirmation_number",
                 categoryName: "أوامر التذاكر",
-                desc: "اعداد التذاكر بشكل كامل والتعديل على كلشيء فيها على حدى",
-                usage: "/setup tickets",
-                example: "/setup tickets"
+                desc: "إنشاء لوحة التذاكر المتقدمة داخل الغرفة وتخصيص أزرارها للزوار.",
+                usage: "/ticket setup [اسم_الغرفة]",
+                example: "/ticket setup #الدعم-الفني"
             },
             {
-                name: "/setup commands",
+                name: "/ticket close",
+                category: "ticket",
+                categoryIcon: "confirmation_number",
+                categoryName: "أوامر التذاكر",
+                desc: "إغلاق التذكرة الحالية مع حفظ الأرشيف وحذف الغرفة تلقائياً.",
+                usage: "/ticket close [السبب]",
+                example: "/ticket close تم حل المشكلة"
+            },
+            {
+                name: "/ban",
                 category: "admin",
                 categoryIcon: "shield_person",
                 categoryName: "أوامر إدارية",
-                desc: "اعداد الاوامر كل واحدى على حدى والغاؤها او تعديل القنوات التي يعمل بها الامر",
-                usage: "/setup commands",
-                example: "/setup commands"
+                desc: "حظر عضو من السيرفر نهائياً مع إمكانية مسح رسائله الأخيرة من الشات.",
+                usage: "/ban [العضو] [السبب]",
+                example: "/ban @Mohammad مخالفة القوانين"
             },
             {
-                name: "/setup tickets",
+                name: "/mute",
                 category: "admin",
                 categoryIcon: "shield_person",
                 categoryName: "أوامر إدارية",
-                desc: "اعداد التذاكر بشكل كامل والتعديل على كلشيء فيها على حدى",
-                usage: "/setup tickets",
-                example: "/setup tickets"
+                desc: "كتم صوت عضو (Timeout) ومنعه من الكتابة والتفاعل لفترة محددة.",
+                usage: "/mute [العضو] [الوقت] [السبب]",
+                example: "/mute @User 1h سب وشتم"
             },
             {
-                name: "/avatar user",
+                name: "/user info",
                 category: "general",
                 categoryIcon: "public",
                 categoryName: "أوامر عامة",
-                desc: "يعرض صورتك الشخصية او صورة شخص ما",
-                usage: "/avatar user",
-                example: "/avatar user [@username]"
-            },
-            {
-                name: "/avatar server",
-                category: "general",
-                categoryIcon: "public",
-                categoryName: "أوامر عامة",
-                desc: "يعرض صورة الخادم الحالي",
-                usage: "/avatar server",
-                example: "/avatar server"
+                desc: "عرض معلومات حسابك الدقيقة أو حساب عضو آخر (تاريخ الإنشاء، تاريخ الانضمام، الرتب).",
+                usage: "/user info [العضو]",
+                example: "/user info @Mohammad"
             },
             {
                 name: "/xo",
@@ -337,13 +343,22 @@
                 example: "/xo @Brother"
             },
             {
-                name: "/setup premium",
+                name: "/set-identity",
                 category: "premium",
                 categoryIcon: "star",
                 categoryName: "أوامر بريميوم",
-                desc: "تثبيت كود البريموم الذي قمت بتحصيله / شراءه ضمن خادمك",
-                usage: "/setup premium",
-                example: "/setup premium [RFXJ-KDJI-KDHD-...]"
+                desc: "تغيير اسم البوت بالكامل وصورته وحالته الشخصية داخل خادمك المخصص فوراً.",
+                usage: "/set-identity [الاسم] [رابط_الصورة]",
+                example: "/set-identity StellaPro https://img.link"
+            },
+            {
+                name: "/stats-voice",
+                category: "premium",
+                categoryIcon: "star",
+                categoryName: "أوامر بريميوم",
+                desc: "إنشاء وتفعيل رومات الإحصائيات الصوتية التلقائية المتطورة التي تحدث تلقائياً.",
+                usage: "/stats-voice setup",
+                example: "/stats-voice setup"
             }
         ];
 
